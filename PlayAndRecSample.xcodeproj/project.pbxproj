@@ -12,6 +12,7 @@
 		324737A61E67C62300F98728 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 324737A41E67C62300F98728 /* Main.storyboard */; };
 		324737A81E67C62300F98728 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 324737A71E67C62300F98728 /* Assets.xcassets */; };
 		324737AB1E67C62300F98728 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 324737A91E67C62300F98728 /* LaunchScreen.storyboard */; };
+		32F77C2F1E76ABA000E420FA /* 1K.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 32F77C2E1E76ABA000E420FA /* 1K.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		324737A71E67C62300F98728 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		324737AA1E67C62300F98728 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		324737AC1E67C62300F98728 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		32F77C2E1E76ABA000E420FA /* 1K.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 1K.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		3247379F1E67C62300F98728 /* PlayAndRecSample */ = {
 			isa = PBXGroup;
 			children = (
+				32F77C2E1E76ABA000E420FA /* 1K.mp3 */,
 				324737A01E67C62300F98728 /* AppDelegate.swift */,
 				324737A21E67C62300F98728 /* ViewController.swift */,
 				324737A41E67C62300F98728 /* Main.storyboard */,
@@ -124,6 +127,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32F77C2F1E76ABA000E420FA /* 1K.mp3 in Resources */,
 				324737AB1E67C62300F98728 /* LaunchScreen.storyboard in Resources */,
 				324737A81E67C62300F98728 /* Assets.xcassets in Resources */,
 				324737A61E67C62300F98728 /* Main.storyboard in Resources */,
@@ -300,6 +304,7 @@
 				324737B11E67C62300F98728 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
