@@ -32,10 +32,13 @@ class ViewController: UIViewController {
 			self.play.setTitle("PLAY", for: .normal)
 			self.indicator(value: false)
 			self.stopPlay()
+			self.rec.isEnabled = true
 		} else {
-			self.play.setTitle("STOP", for: .normal)
-			self.indicator(value: true)
-			self.startPlay()
+			if self.startPlay() {
+				self.rec.isEnabled = false
+				self.play.setTitle("STOP", for: .normal)
+				self.indicator(value: true)
+			}
 		}
 	}
 
@@ -46,7 +49,9 @@ class ViewController: UIViewController {
 			self.rec.setTitle("RECORDING", for: .normal)
 			self.indicator(value: false)
 			self.stopRecord()
+			self.play.isEnabled = true
 		} else {
+			self.play.isEnabled = false
 			self.rec.setTitle("STOP", for: .normal)
 			self.indicator(value: true)
 			self.startRecord()
@@ -68,8 +73,8 @@ class ViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
-		if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeAudio) != .authorized {
-			AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeAudio,
+		if AVCaptureDevice.authorizationStatus(for: AVMediaType.audio) != .authorized {
+			AVCaptureDevice.requestAccess(for: AVMediaType.audio,
 				completionHandler: { (granted: Bool) in
 			})
 		}
@@ -95,7 +100,7 @@ class ViewController: UIViewController {
 			channels: 1,
 			interleaved: true)
 
-		self.audioEngine.connect(self.audioEngine.inputNode!, to: self.mixer, format: format)
+		self.audioEngine.connect(self.audioEngine.inputNode, to: self.mixer, format: format)
 		self.audioEngine.connect(self.audioFilePlayer, to: self.mixer, format: self.audioFile.processingFormat)
 		self.audioEngine.connect(self.mixer, to: self.audioEngine.mainMixerNode, format: format)
 
@@ -110,12 +115,12 @@ class ViewController: UIViewController {
 
 		_ = ExtAudioFileCreateWithURL(URL(fileURLWithPath: self.filePath!) as CFURL,
 			kAudioFileWAVEType,
-			format.streamDescription,
+			(format?.streamDescription)!,
 			nil,
 			AudioFileFlags.eraseFile.rawValue,
 			&outref)
 
-		self.mixer.installTap(onBus: 0, bufferSize: AVAudioFrameCount(format.sampleRate * 0.4), format: format, block: { (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
+		self.mixer.installTap(onBus: 0, bufferSize: AVAudioFrameCount((format?.sampleRate)! * 0.4), format: format, block: { (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
 
 			let audioBuffer : AVAudioBuffer = buffer
 			_ = ExtAudioFileWrite(self.outref!, buffer.frameLength, audioBuffer.audioBufferList)
@@ -134,10 +139,10 @@ class ViewController: UIViewController {
 		try! AVAudioSession.sharedInstance().setActive(false)
 	}
 
-	func startPlay() {
+	func startPlay() -> Bool {
 	
 		if self.filePath == nil {
-			return
+			return	false
 		}
 
 		self.isPlay = true
@@ -157,6 +162,8 @@ class ViewController: UIViewController {
 
 		try! self.audioEngine.start()
 		self.audioFilePlayer.play()
+
+		return true
 	}
 	
 	func stopPlay() {
@@ -183,12 +190,14 @@ class ViewController: UIViewController {
 	
 	func indicator(value: Bool) {
 	
-		if value {
-			self.indicatorView.startAnimating()
-			self.indicatorView.isHidden = false
-		} else {
-			self.indicatorView.stopAnimating()
-			self.indicatorView.isHidden = true
+		DispatchQueue.main.async {
+			if value {
+				self.indicatorView.startAnimating()
+				self.indicatorView.isHidden = false
+			} else {
+				self.indicatorView.stopAnimating()
+				self.indicatorView.isHidden = true
+			}
 		}
 	}
 }
